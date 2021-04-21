@@ -1,10 +1,11 @@
 const titles = document.querySelectorAll(".info-block__arrow"),
+    infoBlock=document.querySelectorAll(".info-block")
     hiddenBlocks = document.querySelectorAll(".info-text");
 
 
-titles.forEach(title => {
+infoBlock.forEach(title => {
     title.addEventListener("click", (e) => {
-        const num = e.target.getAttribute('data-title')
+        const num = title.getAttribute('data-title')
         hiddenBlocks.forEach(item => {
             if (item.classList.contains('info-text_active') && item.getAttribute('data-text') !== num) {
                 item.classList.remove('info-text_active')
