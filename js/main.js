@@ -11,11 +11,11 @@ infoBlock.forEach(title => {
                 item.classList.remove('info-text_active')
                 titles[item.getAttribute("data-text")-1].classList.remove("info-block__arrow_active")
             }
-            hiddenBlocks[num - 1].classList.toggle("info-text_active")
-            titles[num-1].classList.toggle("info-block__arrow_active")
         }
             
         )
+        hiddenBlocks[num - 1].classList.toggle("info-text_active")
+        titles[num-1].classList.toggle("info-block__arrow_active")
         
 
     })
