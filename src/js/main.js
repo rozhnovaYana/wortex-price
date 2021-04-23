@@ -25,7 +25,14 @@ const costs = {
     USD: [100, 60]
 }
 const getCurrency = async () => {
-    const response = await fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json',
+    const options = {
+        year:"numeric",
+        month: "numeric",
+        day: "numeric"
+    }
+    const date = new Intl.DateTimeFormat("ru-Ru", options).format()
+    const dateFormating=date.split(".").reverse().join("")
+    const response = await fetch(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateFormating}&json`,
         {
             method: "GET"
         })
