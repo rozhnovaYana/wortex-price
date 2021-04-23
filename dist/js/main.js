@@ -25,7 +25,14 @@ const costs = {
     USD: [100, 60]
 }
 const getCurrency = async () => {
-    const response = await fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json',
+    const options = {
+        year:"numeric",
+        month: "numeric",
+        day: "numeric"
+    }
+    const date = new Intl.DateTimeFormat("ru-Ru", options).format()
+    const dateFormating=date.split(".").reverse().join("")
+    const response = await fetch(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateFormating}&json`,
         {
             method: "GET"
         })
@@ -41,6 +48,12 @@ const converter = async() => {
     const data = await getCurrency()
     const eur = +data.find(item => item.cc === "EUR").rate
     const usd = +data.find(item => item.cc === "USD").rate
+    const options = {
+        day: "numeric",
+        month: "numeric",
+        year:"numeric"
+    }
+    const date = new Intl.DateTimeFormat("ru-Ru", options).format()
     const uah = [...costs.EUR.map(item => (+item * eur).toFixed(2)), ...costs.USD.map(item =>(+item * usd).toFixed(2))]
     const costIntArray = [...costs.EUR.map(item => `€${item}`), ...costs.USD.map(item => `$${item}`)],
         serviceTitle=document.querySelectorAll(".info-block__text")
@@ -48,7 +61,9 @@ const converter = async() => {
         const num=block.getAttribute("data-text")
         const costsHTML = block.querySelector(".cost"),
             costInt = block.querySelector(".costInt"),
-            serviceText=block.querySelector(".service-name")
+            serviceText = block.querySelector(".service-name"),
+            dateCurrent = block.querySelector(".date")
+        dateCurrent.textContent=date
         costsHTML.textContent = uah[num - 1]
         costInt.textContent = costIntArray[num - 1]
         const text = serviceTitle[num-1].innerText.split(" ").slice(1).join(" ")
